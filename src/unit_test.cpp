@@ -3,40 +3,43 @@
 #include "gtest/gtest.h"
 #include <algorithm>
 
-/*
-TEST(HW3Test, TEST1) {
+TEST(HW3Test, TEST1)
+{
 
-    BST::Node left{10, nullptr, nullptr};
-    BST::Node right{10, nullptr, nullptr};
-    BST::Node node{10, &left, &right};
+    BST::Node left { 10, nullptr, nullptr };
+    BST::Node right { 10, nullptr, nullptr };
+    BST::Node node { 10, &left, &right };
     EXPECT_EQ(node.left, &left);
     EXPECT_EQ(node.right, &right);
 }
 
-TEST(HW3Test, TEST2) {
+TEST(HW3Test, TEST2)
+{
 
-    BST::Node left{10, nullptr, nullptr};
-    BST::Node right{10, nullptr, nullptr};
-    BST::Node node{10, &left, &right};
-    BST::Node copy{node};
+    BST::Node left { 10, nullptr, nullptr };
+    BST::Node right { 10, nullptr, nullptr };
+    BST::Node node { 10, &left, &right };
+    BST::Node copy { node };
     EXPECT_EQ(copy.value, node.value);
     EXPECT_EQ(copy.left, node.left);
     EXPECT_EQ(copy.right, node.right);
 }
 
-TEST(HW3Test, TEST3) {
+TEST(HW3Test, TEST3)
+{
 
-    BST::Node default_{};
+    BST::Node default_ {};
     EXPECT_EQ(default_.value, 0);
     EXPECT_EQ(default_.left, nullptr);
     EXPECT_EQ(default_.right, nullptr);
 }
 
-TEST(HW3Test, TEST4) {
+TEST(HW3Test, TEST4)
+{
 
-    BST::Node left{10, nullptr, nullptr};
-    BST::Node right{10, nullptr, nullptr};
-    BST::Node node{10, &left, &right};
+    BST::Node left { 10, nullptr, nullptr };
+    BST::Node right { 10, nullptr, nullptr };
+    BST::Node node { 10, &left, &right };
 
     std::cout << "adress of node: " << &node << std::endl;
     std::cout << "adress of left: " << &left << std::endl;
@@ -47,6 +50,7 @@ TEST(HW3Test, TEST4) {
     std::cout << std::string(80, '*') << std::endl;
 }
 
+/*
 TEST(HW3Test, TEST5) {
     BST::Node node{5, nullptr, nullptr};
 
