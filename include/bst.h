@@ -1,5 +1,8 @@
 #ifndef BST_H
 #define BST_H
+#include <compare>
+#include <iomanip>
+#include <iostream>
 
 class BST {
 public:
@@ -8,6 +11,11 @@ public:
         Node(int value, Node* left = nullptr, Node* right = nullptr);
         Node();
         Node(const Node& node);
+
+        friend std::ostream& operator<<(std::ostream&, const BST::Node&);
+
+        bool operator==(const Node&) const;
+        std::partial_ordering operator<=>(const Node&) const;
 
         int value;
         Node* left;

@@ -50,9 +50,9 @@ TEST(HW3Test, TEST4)
     std::cout << std::string(80, '*') << std::endl;
 }
 
-/*
-TEST(HW3Test, TEST5) {
-    BST::Node node{5, nullptr, nullptr};
+TEST(HW3Test, TEST5)
+{
+    BST::Node node { 5, nullptr, nullptr };
 
     EXPECT_TRUE(node > 4);
     EXPECT_FALSE(node > 5);
@@ -75,16 +75,17 @@ TEST(HW3Test, TEST5) {
     EXPECT_FALSE(2 >= node);
     EXPECT_TRUE(5 == node);
     EXPECT_FALSE(3 == node);
-
 }
 
-TEST(HW3Test, TEST6) {
-    BST bst{};
+TEST(HW3Test, TEST6)
+{
+    BST bst {};
     EXPECT_EQ(bst.get_root(), nullptr);
 }
-
-TEST(HW3Test, TEST7) {
-    BST bst{};
+/*
+TEST(HW3Test, TEST7)
+{
+    BST bst {};
     bst.add_node(10);
     bst.add_node(20);
     bst.add_node(5);
@@ -92,6 +93,7 @@ TEST(HW3Test, TEST7) {
     EXPECT_EQ(bst.get_root()->left->value, 5);
     EXPECT_EQ(bst.get_root()->right->value, 20);
 }
+
 
 TEST(HW3Test, TEST8) {
     BST bst{};
