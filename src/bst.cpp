@@ -32,3 +32,56 @@ bool BST::Node::operator==(const Node& _node) const { return value == _node.valu
 //----------------------------------------------------------------
 std::partial_ordering BST::Node::operator<=>(const Node& _node) const { return value <=> _node.value; }
 //----------------------------------------------------------------
+void BST::bfs(std::function<void(Node*& node)> func)
+{
+    std::vector<Node*> Tree;
+    Tree.push_back(root);
+    while (!Tree.empty()) {
+        Node* node = Tree.back();
+        Tree.pop_back();
+        func(node);
+
+        if (node->left)
+            Tree.push_back(node->left);
+        if (node->right)
+            Tree.push_back(node->right);
+    }
+}
+//----------------------------------------------------------------
+bool BST::add_node(const int& _value)
+{
+    if (!root) {
+        root = new Node(_value);
+        return true;
+    }
+
+    Node* Temp { root };
+    while (true) {
+        if (Temp->value == _value)
+            return false;
+
+        if (Temp->value < _value) {
+            if (!Temp->right) {
+                Temp->right = new Node(_value);
+                return true;
+            }
+            Temp = Temp->right;
+
+        } else {
+            if (!Temp->left) {
+                Temp->left = new Node(_value);
+                return true;
+            }
+            Temp = Temp->left;
+        }
+    }
+}
+
+//----------------------------------------------------------------
+size_t length()
+{
+    size_t length {};
+    this->bfs([&length](BST::Node*& node) { ++length; });
+    return length;
+}
+//----------------------------------------------------------------
