@@ -404,24 +404,26 @@ TEST(HW3Test, TEST23)
     EXPECT_EQ(bst.get_root()->left->value, 10);
     EXPECT_EQ(bst.get_root()->left->right->right, nullptr);
 }
-/*
-TEST(HW3Test, TEST24) {
-    BST bst{};
+
+TEST(HW3Test, TEST24)
+{
+    BST bst {};
     bst.add_node(5);
     bst.add_node(10);
     bst.add_node(50);
-    BST copy{bst};
+    BST copy { bst };
     EXPECT_EQ(bst.length(), copy.length());
     EXPECT_EQ(bst.get_root()->right->value, copy.get_root()->right->value);
 }
 
-TEST(HW3Test, TEST25) {
-    BST bst{};
+TEST(HW3Test, TEST25)
+{
+    BST bst {};
     bst.add_node(5);
     bst.add_node(10);
     bst.add_node(50);
 
-    BST equal{};
+    BST equal {};
     bst.add_node(51);
     bst.add_node(66);
     bst.add_node(10);
@@ -429,7 +431,7 @@ TEST(HW3Test, TEST25) {
     EXPECT_EQ(bst.length(), equal.length());
     EXPECT_EQ(bst.get_root()->right->right->value, equal.get_root()->right->right->value);
 }
-
+/*
 TEST(HW3Test, TEST26) {
     BST bst{};
     bst.add_node(5);

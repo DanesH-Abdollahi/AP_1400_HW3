@@ -13,8 +13,8 @@ public:
     class Node {
     public:
         Node(int value, Node* left = nullptr, Node* right = nullptr);
-        Node();
-        Node(const Node& node);
+        Node(); // Default Constructor
+        Node(const Node& node); // Copy Cunstructor
 
         friend std::ostream& operator<<(std::ostream&, const BST::Node&);
 
@@ -25,6 +25,9 @@ public:
         Node* left;
         Node* right;
     };
+
+    BST(); // Default Constructor
+    BST(const BST& bst); // Copy Cunstructor
 
     Node*& get_root();
     void bfs(std::function<void(Node*& node)> func) const;

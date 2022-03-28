@@ -194,3 +194,14 @@ bool BST::delete_node(int _value)
     return true;
 }
 //----------------------------------------------------------------
+BST::BST()
+    : root { nullptr }
+{
+}
+//----------------------------------------------------------------
+BST::BST(const BST& _bst)
+    : root { _bst.root }
+{
+    _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
+}
+//----------------------------------------------------------------
