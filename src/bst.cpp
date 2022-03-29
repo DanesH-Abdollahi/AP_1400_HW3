@@ -42,12 +42,13 @@ void BST::bfs(std::function<void(Node*& node)> func) const
     while (!Tree.empty()) {
         Node* node = Tree.back();
         Tree.pop_back();
-        func(node);
-
-        if (node->left)
-            Tree.push_back(node->left);
-        if (node->right)
-            Tree.push_back(node->right);
+        if (node != nullptr) {
+            func(node);
+            if (node->left)
+                Tree.push_back(node->left);
+            if (node->right)
+                Tree.push_back(node->right);
+        }
     }
 }
 //----------------------------------------------------------------
@@ -159,7 +160,6 @@ bool BST::delete_node(int _value)
             (*Parrent)->left = nullptr;
         else
             (*Parrent)->right = nullptr;
-        // delete Temp, Parrent; ???
         return true;
     }
 
@@ -168,7 +168,6 @@ bool BST::delete_node(int _value)
             (*Parrent)->left = (*Temp)->right;
         else
             (*Parrent)->right = (*Temp)->right;
-        // delete Temp, Parrent;
         return true;
     }
 
@@ -177,7 +176,6 @@ bool BST::delete_node(int _value)
             (*Parrent)->left = (*Temp)->left;
         else
             (*Parrent)->right = (*Temp)->left;
-        // delete Temp, Parrent;
         return true;
     } else if ((*Temp)->left != nullptr && (*Temp)->right != nullptr) {
         BST::Node** successor { find_successor(_value) };
@@ -188,7 +186,6 @@ bool BST::delete_node(int _value)
             (*Successor_Parrent)->left = nullptr;
         else
             (*Successor_Parrent)->right = nullptr;
-        // delete Temp, Successor_Parrent;
         return true;
     }
     return true;
@@ -200,8 +197,44 @@ BST::BST()
 }
 //----------------------------------------------------------------
 BST::BST(const BST& _bst)
-    : root { _bst.root }
+    : root { nullptr }
 {
     _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
+    // std::cout << "Copy!" << std::endl;
+}
+//----------------------------------------------------------------
+BST::~BST()
+{
+    std::vector<Node*> nodes;
+    bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
+    for (auto& node : nodes)
+        delete node;
+}
+//----------------------------------------------------------------
+BST::BST(BST&& source)
+{
+    root = source.root;
+    source.root = nullptr;
+    // std::cout << "Move!" << std::endl;
+}
+//----------------------------------------------------------------
+BST& BST::operator=(const BST& _bst) // Copy Version
+{
+    if (this == &_bst)
+        return *this;
+
+    delete root;
+    _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
+    // std::cout << "= Copy" << std::endl;
+    return *this;
+}
+//----------------------------------------------------------------
+BST& BST::operator=(BST&& _bst) // Move Version
+{
+    delete root;
+    root = _bst.root;
+    _bst.root = nullptr;
+    // std::cout << "= Move" << std::endl;
+    return *this;
 }
 //----------------------------------------------------------------

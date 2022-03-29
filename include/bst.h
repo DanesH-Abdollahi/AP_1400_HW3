@@ -2,6 +2,7 @@
 #define BST_H
 #include <compare>
 #include <functional>
+#include <initializer_list>
 #include <iomanip>
 #include <iostream>
 #include <memory>
@@ -28,6 +29,8 @@ public:
 
     BST(); // Default Constructor
     BST(const BST& bst); // Copy Cunstructor
+    ~BST(); // Destructor
+    BST(BST&& source); // Move Constructor
 
     Node*& get_root();
     void bfs(std::function<void(Node*& node)> func) const;
@@ -38,6 +41,8 @@ public:
     Node** find_successor(int value);
     bool delete_node(int value);
 
+    BST& operator=(const BST&); // Copy Version
+    BST& operator=(BST&&); // Move Version
     friend std::ostream& operator<<(std::ostream&, const BST&);
 
 private:
