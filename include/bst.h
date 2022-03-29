@@ -42,6 +42,9 @@ public:
     Node** find_successor(int value);
     bool delete_node(int value);
 
+    const BST& operator++() const;
+    const BST operator++(int) const;
+
     BST& operator=(const BST&); // Copy Version
     BST& operator=(BST&&); // Move Version
     friend std::ostream& operator<<(std::ostream&, const BST&);

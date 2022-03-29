@@ -245,3 +245,16 @@ BST::BST(std::initializer_list<int> _list)
         add_node(i);
 }
 //----------------------------------------------------------------
+const BST& BST::operator++() const
+{
+    this->bfs([this](BST::Node*& node) { node->value++; });
+    return *this;
+}
+//----------------------------------------------------------------
+const BST BST::operator++(int) const
+{
+    BST Temp { *this };
+    this->bfs([this](BST::Node*& node) { node->value++; });
+    return Temp;
+}
+//----------------------------------------------------------------
