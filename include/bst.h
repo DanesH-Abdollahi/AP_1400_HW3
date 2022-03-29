@@ -31,6 +31,7 @@ public:
     BST(const BST& bst); // Copy Cunstructor
     ~BST(); // Destructor
     BST(BST&& source); // Move Constructor
+    BST(std::initializer_list<int>); // Initializer List Constructor
 
     Node*& get_root();
     void bfs(std::function<void(Node*& node)> func) const;

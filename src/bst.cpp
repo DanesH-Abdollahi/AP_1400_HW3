@@ -197,7 +197,7 @@ BST::BST()
 }
 //----------------------------------------------------------------
 BST::BST(const BST& _bst)
-    : root { nullptr }
+    : BST()
 {
     _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
     // std::cout << "Copy!" << std::endl;
@@ -236,5 +236,12 @@ BST& BST::operator=(BST&& _bst) // Move Version
     _bst.root = nullptr;
     // std::cout << "= Move" << std::endl;
     return *this;
+}
+//----------------------------------------------------------------
+BST::BST(std::initializer_list<int> _list)
+    : BST()
+{
+    for (auto& i : _list)
+        add_node(i);
 }
 //----------------------------------------------------------------
