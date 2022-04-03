@@ -1,5 +1,4 @@
 # Advanced Programming - HW3
-<p  align="center"> <b>Homework 3 - Spring 2022 Semester <br> Deadline: Sunday Farvardin 14st - 11:59 pm</b> </p>
 
 ## Outline
 
@@ -164,4 +163,3 @@ else
 return 0;
 ```
 <br/>
-<p  align="center"> <b>GOOD LUCK</b> </p>
