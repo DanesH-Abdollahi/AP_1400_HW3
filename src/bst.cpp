@@ -1,7 +1,7 @@
 #include "bst.h"
 
 //----------------------------------------------------------------
-// Constructor
+// Node Constructor
 BST::Node::Node(int _value, Node* _left, Node* _right)
     : value { _value }
     , left { _left }
