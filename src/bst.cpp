@@ -1,8 +1,7 @@
 #include "bst.h"
 
 //----------------------------------------------------------------
-BST::Node*& BST::get_root() { return root; }
-//----------------------------------------------------------------
+// Constructor
 BST::Node::Node(int _value, Node* _left, Node* _right)
     : value { _value }
     , left { _left }
@@ -10,6 +9,7 @@ BST::Node::Node(int _value, Node* _left, Node* _right)
 {
 }
 //----------------------------------------------------------------
+// Copy Cunstructor
 BST::Node::Node(const Node& _node)
     : value { _node.value }
     , left { _node.left }
@@ -17,10 +17,13 @@ BST::Node::Node(const Node& _node)
 {
 }
 //----------------------------------------------------------------
+// Default Constructor
 BST::Node::Node()
-    : Node(0, nullptr, nullptr)
+    : Node(0, nullptr, nullptr) // Set The Default Value = 0 and it's Childeren Pointer = Nullptr
 {
 }
+//----------------------------------------------------------------
+BST::Node*& BST::get_root() { return root; }
 //----------------------------------------------------------------
 std::ostream& operator<<(std::ostream& output_, const BST::Node& _node)
 {
@@ -35,13 +38,38 @@ bool BST::Node::operator==(const Node& _node) const { return value == _node.valu
 //----------------------------------------------------------------
 std::partial_ordering BST::Node::operator<=>(const Node& _node) const { return value <=> _node.value; }
 //----------------------------------------------------------------
+BST::BST() // Default Constructor
+    : root { nullptr }
+{
+}
+//----------------------------------------------------------------
+BST::BST(const BST& _bst) // Copy Constructor
+    : BST()
+{ // Construct a New BST with Same Node's Value as Received BST
+    _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
+}
+//----------------------------------------------------------------
+BST::~BST() // Destructor
+{
+    std::vector<Node*> nodes;
+    bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
+    for (auto& node : nodes)
+        delete node;
+}
+//----------------------------------------------------------------
+BST::BST(BST&& source) // Move Constructor
+{
+    root = source.root;
+    source.root = nullptr;
+}
+//----------------------------------------------------------------
 void BST::bfs(std::function<void(Node*& node)> func) const
 {
     std::vector<Node*> Tree;
     Tree.push_back(root);
     while (!Tree.empty()) {
-        Node* node = Tree.back();
-        Tree.pop_back();
+        Node* node = Tree.back(); // Return The Last Element Of The Tree Vector
+        Tree.pop_back(); // Delete The Last Element Of The Tree Vector
         if (node != nullptr) {
             func(node);
             if (node->left)
@@ -79,7 +107,6 @@ bool BST::add_node(const int& _value)
         }
     }
 }
-
 //----------------------------------------------------------------
 size_t BST::length() const
 {
@@ -92,7 +119,7 @@ std::ostream& operator<<(std::ostream& _output, const BST& _bst)
 {
     std::cout << std::string(80, '*') << std::endl;
     _bst.bfs([&_output](BST::Node*& node) { _output << *node << std::endl; });
-    std::cout << "binary search tree size:" << _bst.length() << std::endl;
+    std::cout << "binary search tree size: " << _bst.length() << std::endl;
     std::cout << std::string(80, '*');
     return _output;
 }
@@ -154,7 +181,7 @@ bool BST::delete_node(int _value)
 
     if (Temp == nullptr)
         return false;
-
+    // For The Leaf Node
     if ((*Temp)->left == nullptr && (*Temp)->right == nullptr) {
         if ((*Parrent)->value > _value)
             (*Parrent)->left = nullptr;
@@ -162,7 +189,7 @@ bool BST::delete_node(int _value)
             (*Parrent)->right = nullptr;
         return true;
     }
-
+    // If The Node just has Left Child
     else if ((*Temp)->left == nullptr) {
         if ((*Parrent)->value > _value)
             (*Parrent)->left = (*Temp)->right;
@@ -170,13 +197,14 @@ bool BST::delete_node(int _value)
             (*Parrent)->right = (*Temp)->right;
         return true;
     }
-
+    // If The Node just has Right Child
     else if ((*Temp)->right == nullptr) {
         if ((*Parrent)->value > _value)
             (*Parrent)->left = (*Temp)->left;
         else
             (*Parrent)->right = (*Temp)->left;
         return true;
+        // If The Node has 2 Childeren
     } else if ((*Temp)->left != nullptr && (*Temp)->right != nullptr) {
         BST::Node** successor { find_successor(_value) };
         BST::Node** Successor_Parrent { find_parrent((*successor)->value) };
@@ -191,50 +219,22 @@ bool BST::delete_node(int _value)
     return true;
 }
 //----------------------------------------------------------------
-BST::BST()
-    : root { nullptr }
-{
-}
-//----------------------------------------------------------------
-BST::BST(const BST& _bst)
-    : BST()
-{
-    _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
-    // std::cout << "Copy!" << std::endl;
-}
-//----------------------------------------------------------------
-BST::~BST()
-{
-    std::vector<Node*> nodes;
-    bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
-    for (auto& node : nodes)
-        delete node;
-}
-//----------------------------------------------------------------
-BST::BST(BST&& source)
-{
-    root = source.root;
-    source.root = nullptr;
-    // std::cout << "Move!" << std::endl;
-}
-//----------------------------------------------------------------
 BST& BST::operator=(const BST& _bst) // Copy Version
 {
     if (this == &_bst)
         return *this;
-
+    // Copy Version of =
     delete root;
     _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
-    // std::cout << "= Copy" << std::endl;
     return *this;
 }
 //----------------------------------------------------------------
 BST& BST::operator=(BST&& _bst) // Move Version
 {
+    // Move Version of =
     delete root;
     root = _bst.root;
     _bst.root = nullptr;
-    // std::cout << "= Move" << std::endl;
     return *this;
 }
 //----------------------------------------------------------------
@@ -247,14 +247,16 @@ BST::BST(std::initializer_list<int> _list)
 //----------------------------------------------------------------
 const BST& BST::operator++() const
 {
+    // Left ++
     this->bfs([this](BST::Node*& node) { node->value++; });
     return *this;
 }
 //----------------------------------------------------------------
 const BST BST::operator++(int) const
 {
+    // Right ++
     BST Temp { *this };
     this->bfs([this](BST::Node*& node) { node->value++; });
     return Temp;
 }
-//----------------------------------------------------------------
+//--------------------------The End-------------------------------

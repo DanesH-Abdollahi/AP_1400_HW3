@@ -6,7 +6,6 @@
 #include <iomanip>
 #include <iostream>
 #include <memory>
-#include <queue>
 #include <vector>
 
 class BST {
@@ -17,10 +16,9 @@ public:
         Node(); // Default Constructor
         Node(const Node& node); // Copy Cunstructor
 
-        friend std::ostream& operator<<(std::ostream&, const BST::Node&);
-
         bool operator==(const Node&) const;
         std::partial_ordering operator<=>(const Node&) const;
+        friend std::ostream& operator<<(std::ostream&, const BST::Node&);
 
         int value;
         Node* left;
@@ -32,6 +30,8 @@ public:
     ~BST(); // Destructor
     BST(BST&& source); // Move Constructor
     BST(std::initializer_list<int>); // Initializer List Constructor
+    BST& operator=(const BST&); // Copy Version
+    BST& operator=(BST&&); // Move Version
 
     Node*& get_root();
     void bfs(std::function<void(Node*& node)> func) const;
@@ -42,11 +42,8 @@ public:
     Node** find_successor(int value);
     bool delete_node(int value);
 
-    const BST& operator++() const;
-    const BST operator++(int) const;
-
-    BST& operator=(const BST&); // Copy Version
-    BST& operator=(BST&&); // Move Version
+    const BST& operator++() const; // Left ++
+    const BST operator++(int) const; // Right ++
     friend std::ostream& operator<<(std::ostream&, const BST&);
 
 private:
