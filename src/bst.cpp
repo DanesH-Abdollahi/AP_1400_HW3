@@ -223,7 +223,7 @@ BST& BST::operator=(const BST& _bst) // Copy Version
 {
     if (this == &_bst)
         return *this;
-    // Copy Version of =
+    // Copy Version of Operator =
     delete root;
     _bst.bfs([this](BST::Node*& node) { this->add_node(node->value); });
     return *this;
@@ -231,7 +231,7 @@ BST& BST::operator=(const BST& _bst) // Copy Version
 //----------------------------------------------------------------
 BST& BST::operator=(BST&& _bst) // Move Version
 {
-    // Move Version of =
+    // Move Version of Operator =
     delete root;
     root = _bst.root;
     _bst.root = nullptr;
